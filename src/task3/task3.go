@@ -37,7 +37,6 @@ func (t *Triagle) GetArea () float64{
 	return math.Sqrt(p*(p-t.A)*(p-t.B)*(p-t.C))
 }
 type triagleList struct {
-	//если наследоваться через ссылку *Triagle то в ответе только последний треугольник
 	Triagle
 	area float64
 }
