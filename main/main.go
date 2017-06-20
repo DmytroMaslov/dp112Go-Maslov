@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"task1"
 	"task2"
 	"task3"
-	//"task4"
+	"task4"
 	"task5"
 	"task6"
 	"task7"
+	"fmt"
 )
 
 func main() {
@@ -35,6 +35,8 @@ func main() {
 	s:= []task3.Triagle{tr1, tr2, tr3, tr4}
 	name := task3.SortTriagle(s)
 	fmt.Println(name)
+//task4
+	fmt.Println(task4.GetMaxPalidrom(12332145789987))
 
 //task5
 	fmt.Println("Task5:")
@@ -51,6 +53,7 @@ func main() {
 	if er !=nil{
 		fmt.Println(er)
 	}
+
 }
 
 
