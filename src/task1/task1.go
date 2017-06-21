@@ -4,44 +4,25 @@ import "fmt"
 import "errors"
 
 
-func Task1(l int, w int, c string) (error) {
+func Task1 (l int, w int, c string) {
+
+	writeGrid(l, w, c)
+
+}
+func IsValid (l int, w int, c string) (error){
 	if l< 2 {
-		return errors.New("incorect l")
+		return errors.New("incorrect l")
 	}
 	if w <2{
-		return errors.New("incorect w")
+		return errors.New("incorrect w")
 	}
-
-	firstGrid(l,w,c)
-	secondGrid(l, w,c )
+	if len(c) == 0{
+		return errors.New("empty char symbol")
+	}
 	return nil
-
-}
-func firstGrid(l int, w int, c string ){
-	for i := 0; i<l; i++{
-		for j := 0; j<w; j++{
-			if i%2 == 0 {
-				if j%2 ==0 {
-					fmt.Print(c)
-				}
-				if j%2==1{
-					fmt.Print(" ")
-				}
-			}
-			if i%2 == 1 {
-				if j%2 == 0 {
-					fmt.Print(" ")
-				}
-				if j%2 == 1 {
-					fmt.Print(c)
-				}
-			}
-		}
-		fmt.Print("\n")
-	}
 }
 
-func secondGrid (l int, w int, c string){
+func writeGrid (l int, w int, c string){
 	i:= 0
 
 	for i<l {

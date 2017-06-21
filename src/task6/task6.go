@@ -15,10 +15,28 @@ import (
 	"fmt"
 )
 
-func WriteToFileNumbersRow(lengRow, minSquare int, name string){
+const FILE_NAME = "test2.txt"
+
+func WriteToFileNumbersRow(lengRow, minSquare int)(error){
 	numberRow := getNumbersRow(lengRow, minSquare)
 	fmt.Println(numberRow)
-	writeInFile(name, numberRow)
+	err := writeInFile(FILE_NAME, numberRow)
+	if err != nil{
+		return err
+	} else {
+		return nil
+	}
+}
+func IsValid (lengRow, minSquare int) (error)  {
+	if (lengRow < 0){
+		return errors.New("Length of row less than zero")
+	}
+	if (minSquare < 0){
+		return errors.New("Min square less than zero")
+	} else {
+		return nil
+	}
+
 }
 
 func getNumbersRow (lengRow, minSquare int) (numbersRow []float64){

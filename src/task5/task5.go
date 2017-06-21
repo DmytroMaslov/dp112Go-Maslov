@@ -10,8 +10,10 @@
 */
 package task5
 
+import "errors"
 
-const ticketSize = 6
+const TICKET_SIZE = 6
+const MAX_NUMBER = 999999
 
 func GetWinerTicketResult(min, max int) WinMethod{
 	winer := WinMethod{easy:  easyMethod(min, max),
@@ -23,26 +25,27 @@ func GetWinerTicketResult(min, max int) WinMethod{
 	return winer
 }
 
+func IsValid (min, max int) (error) {
+	if (min<0|| max<0){
+		return errors.New("One of range less than zero")
+	}
+	if (max<MAX_NUMBER){
+		return errors.New("more than max number")
+	} else {
+		return nil
+	}
+
+}
+
 type  WinMethod struct {
 winName string
 easy    int
 hard    int
 }
 
-func getNumbers(min, max int)[]int{
-	sl := make([]int, (max+1)-min)
-	i:=0
-	for min != max+1 {
-		sl[i] = min
-		min++
-		i++
-	}
-	return sl
-}
-
 func convertToSlice(number int) ([] int){
-	sl:=make([]int, ticketSize)
-	for i := ticketSize-1; i >= 0; i--{
+	sl:=make([]int, TICKET_SIZE)
+	for i := TICKET_SIZE-1; i >= 0; i--{
 		sl[i] = number%10
 		number = number/10
 	}
@@ -66,10 +69,10 @@ func isLuckyEasy(number int) bool{
 	lp :=0
 	rp:=0
 	for i:=0; i < len(sl); i++{
-		if i<ticketSize/2{
+		if i<TICKET_SIZE/2{
 			lp += sl[i]
 		}
-		if i>=ticketSize/2{
+		if i>=TICKET_SIZE/2{
 			rp+=sl[i]
 		}
 	}

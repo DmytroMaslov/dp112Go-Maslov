@@ -1,5 +1,7 @@
 package task2
 
+import "errors"
+
 func GetSmallEnvelope(en1 Envelope, en2 Envelope) int{
 
 	if en1.isBigest(en2) {
@@ -11,6 +13,16 @@ func GetSmallEnvelope(en1 Envelope, en2 Envelope) int{
 	}
 
 }
+func IsValid (en1 Envelope, en2 Envelope) (error){
+	if (en1.S1<0|| en1.S2<0){
+		return errors.New("Incorrect first envelope")
+	}
+	if (en2.S1<0|| en2.S2<0){
+		return errors.New("Incorrect second envelope")
+	}
+	return nil
+}
+
 type Envelope struct {
 	S1 float64
 	S2 float64

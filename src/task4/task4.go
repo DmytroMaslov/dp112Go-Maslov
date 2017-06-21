@@ -10,6 +10,7 @@ package task4
 import (
 	"strconv"
 	"sort"
+	"errors"
 )
 
 
@@ -52,6 +53,14 @@ func GetMaxPalidrom (number uint64) (maxPalidrom string, status bool){
 	sort.Sort(sort.Reverse(byValue(strSl)))
 	maxPalidrom = strSl[0]
 	return maxPalidrom, true
+}
+
+func IsValid (number uint64) (error){
+	if (number<0){
+		return errors.New("less than zero")
+	} else{
+		return nil
+	}
 }
 
 	func isPalidrom (s string) (result bool){
