@@ -1,25 +1,27 @@
 package task4
 
-import "testing"
-
-
-func TestGetMaxPalidrom(t* testing.T){
-
- var testData = [] struct{
+import (
+	"testing"
+)
+func TestGetMaxPalidrom2(t *testing.T) {
+	var testData = [] struct{
 		input uint64
 		expectedResult string
 		expectedStatus bool
 	}{
-	 {123321, "123321", true},
-	 {22, "22", true},
-	 {123, "", false},
+		//positive case
+		{123321123121156, "321123", true},
+		{222222222222, "222222222222", true},
+		{2233445566, "66", true},
+		{123, "", false},
+		//negative case
 	}
 
 	for _, test := range testData{
 		out, status := GetMaxPalidrom(test.input)
-		if out != test.expectedResult || status != test.expectedStatus {
-			t.Errorf("GetMaxPalidrom(%d) status %s  Result: %s, %s", test.input, test.expectedStatus, out, status)
+		if (out != test.expectedResult) || (status != test.expectedStatus) {
+			t.Errorf("GetMaxPalidrom(%d) Expected: %d status %t  Actual: %s, %t", test.input, test.expectedResult, test.expectedStatus, out, status)
 		}
 	}
-
 }
+
