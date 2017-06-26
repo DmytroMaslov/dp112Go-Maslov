@@ -29,7 +29,7 @@ func SortTriagle(triaglSlice []Triagle) []string{
 	return name
 }
 
-func IsValid(triaglSlice []Triagle) error{
+func IsValid (triaglSlice []Triagle) error{
 	for _,v := range triaglSlice{
 		if !(v.isTriangle()) {
 			return errors.New("It's not Triangle:"+ v.Name)
