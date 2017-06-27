@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-
+var FILE_NAME  = "context.txt"
 
 func CalculateFibonachiRow () (error){
 	row,err := getFibonachiRow()
@@ -25,6 +25,18 @@ func CalculateFibonachiRow () (error){
 	}
 	fmt.Println(row)
 	return nil
+}
+func getFibonachiRow( )([]int64, error){
+	params, er :=readFromFile()
+	if er != nil{
+		return nil, er
+	}
+	if len(params) ==1{
+		return forLeng(params), nil
+	} else {
+		return inRange(params), nil
+	}
+
 }
 
 func inRange( slRange []int64 )[]int64 {
@@ -45,17 +57,17 @@ func inRange( slRange []int64 )[]int64 {
 	return result
 }
 
-func forLeng (size int64) ([]int64){
+func forLeng (size []int64) ([]int64){
 
 	result := make([]int64, 0)
 	var f int64 = 1
 	var s int64 = 0
 	var es int64 =0
-	for es <= size{
+	for es <= size[0]{
 		f +=s
 		s = f-s
 		es = int64(len(strconv.FormatInt(f, 10)))
-		if (es == size) {
+		if (es == size[0]) {
 			result = append(result, f)
 		}
 	}
@@ -63,7 +75,7 @@ func forLeng (size int64) ([]int64){
 }
 
 func readFromFile ()(res []int64, err error){
-	file, err := os.Open("context.txt")
+	file, err := os.Open(FILE_NAME)
 	if err !=nil{
 		return res,  errors.New("Can't find file")
 	}
@@ -92,16 +104,5 @@ func readFromFile ()(res []int64, err error){
 	return result, nil
 }
 
-func getFibonachiRow( )([]int64, error){
-	params, er :=readFromFile()
-	if er != nil{
-		return nil, er
-	}
-	if len(params) ==1{
-		return forLeng(params[0]), nil
-	} else {
-		return inRange(params), nil
-	}
 
-}
 
