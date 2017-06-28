@@ -44,29 +44,30 @@ func TestForLeng (t *testing.T){
 
 	}
 }
-/*
+
 	func TestReadFromFile (t *testing.T){
 		var dataInFile = []struct{
 			name string
 			expected []int64
 			error string
 		}{
-			{name: "context.txt", expected:[]int64{5,1000}},
-			//{name:"context1.txt", expected: []int64{120}},
-			//{name:"noFile.txt", error:"Can't find file"},
+			{name: "context.txt", expected:[]int64{5,100}},
+			{name:"context1.txt", expected: []int64{5}},
+			{name:"noFile.txt", error:"Can't find file"},
 			//{name:"emptyFile.txt", error:""},
 		}
-		//fileName := FILE_NAME
-		// func (){FILE_NAME = fileName} ()
+		fileName := FILE_NAME
+		func (){FILE_NAME = fileName} ()
 		for _,data := range dataInFile{
-			//FILE_NAME = data.name
+			FILE_NAME = data.name
 			actual, er := readFromFile()
-			//if er != nil && er.Error() != data.error{t.Errorf("expected error:%s ",data.error,"actual error:", er.Error())}
-			if er == nil && !(reflect.DeepEqual(actual, data.expected )){
+			if er != nil && er.Error() != data.error{
+				t.Errorf("expected error:%s ",data.error,"actual error:", er.Error())
+			}
+
+			if !(reflect.DeepEqual(actual, data.expected )){
 				t.Error("Actual", actual,"Expected", data.expected)
 			}
 
 		}
-
 	}
-*/

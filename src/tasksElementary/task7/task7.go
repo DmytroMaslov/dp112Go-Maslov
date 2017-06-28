@@ -13,21 +13,20 @@ import (
 	"strconv"
 	"os"
 	"errors"
-	"fmt"
 )
 
 var FILE_NAME  = "context.txt"
 
-func CalculateFibonachiRow () (error){
+func CalculateFibonachiRow () ([]int64, error){
 	row,err := getFibonachiRow()
 	if err != nil{
-		return err
+		return nil, err
 	}
-	fmt.Println(row)
-	return nil
+
+	return row, nil
 }
 func getFibonachiRow( )([]int64, error){
-	params, er :=readFromFile()
+	params, er := readFromFile()
 	if er != nil{
 		return nil, er
 	}
@@ -74,7 +73,7 @@ func forLeng (size []int64) ([]int64){
 	return result
 }
 
-func readFromFile ()(res []int64, err error){
+func readFromFile()(res []int64, err error){
 	file, err := os.Open(FILE_NAME)
 	if err !=nil{
 		return res,  errors.New("Can't find file")
