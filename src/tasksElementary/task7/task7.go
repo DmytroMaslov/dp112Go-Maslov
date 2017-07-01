@@ -26,7 +26,7 @@ func CalculateFibonachiRow () ([]int64, error){
 	return row, nil
 }
 func getFibonachiRow( )([]int64, error){
-	params, er := readFromFile()
+	params, er := dataFromFile()
 	if er != nil{
 		return nil, er
 	}
@@ -72,6 +72,8 @@ func forLeng (size []int64) ([]int64){
 	}
 	return result
 }
+var dataFromFile = readFromFile
+
 
 func readFromFile()(res []int64, err error){
 	file, err := os.Open(FILE_NAME)

@@ -6,6 +6,44 @@ import (
 )
 
 
+func TestCalculateFibonachiRow(t *testing.T) {
+	var testData = []struct{
+		testType string
+		stubF func () (res []int64, err error)
+		expectedResult []int64
+	} {
+		//positive case
+		{testType:
+		"One variables ",
+			stubF:
+			func()(res []int64, err error){return []int64{5, 100}, nil},
+			expectedResult:
+			[]int64{5,8,13,21,34,55,89}},
+		{testType:
+		"One variables ",
+		stubF:
+		func()(res []int64, err error){return []int64{2}, nil},
+		expectedResult:
+		[]int64{13,21,34,55,89}},
+	}
+	save := dataFromFile
+	defer func(){dataFromFile = save}()
+	for _,data := range testData{
+		dataFromFile = data.stubF
+		actualResult, er := CalculateFibonachiRow()
+
+		if er != nil{
+			t.Error("some error", er)
+			break
+		}
+		if !(reflect.DeepEqual(actualResult, data.expectedResult)){
+			t.Error("Expected result", data.expectedResult, "Actual result", actualResult)
+		}
+
+	}
+}
+
+
 
 func TestInRange(t *testing.T) {
 	var testDataRange  = [] struct {
@@ -45,7 +83,7 @@ func TestForLeng (t *testing.T){
 	}
 }
 
-	func TestReadFromFile (t *testing.T){
+func TestReadFromFile (t *testing.T){
 		var dataInFile = []struct{
 			name string
 			expected []int64
