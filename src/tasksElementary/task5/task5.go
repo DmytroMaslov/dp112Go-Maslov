@@ -10,18 +10,23 @@
 */
 package task5
 
-import "errors"
+import (
+	"errors"
+)
 
 const TICKET_SIZE = 6
 const MAX_NUMBER = 999999
 
-func GetWinerTicketResult(min, max int) WinMethod{
+type TicketRange struct {
+	Min int
+	Max int
+}
+func Run(min, max int) WinMethod{
 	winer := WinMethod{easy:  easyMethod(min, max),
 						hard: hardMethod(min, max)}
 	if (winer.easy>winer.hard) {winer.winName = "easy"
 	} else if (winer.easy<winer.hard) {winer.winName = "hard"
 	} else {winer.winName = "both"}
-
 	return winer
 }
 

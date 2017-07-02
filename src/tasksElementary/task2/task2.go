@@ -25,7 +25,8 @@ func IsValid (en1 Envelope, en2 Envelope) (error){
 	return nil
 }
 
-func GetBigestEnvelope(en1 Envelope, en2 Envelope) int{
+func Run(en1 Envelope, en2 Envelope) int{
+
 
 	if en1.isBigest(en2) {
 		return 1

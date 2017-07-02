@@ -18,7 +18,7 @@ func TestGetSmallEnvelope(t *testing.T) {
 		{Envelope{S1: 0.00015, S2: 0.00020}, Envelope{S1:0.001, S2:0.002}, 2},
 	}
 	for _,en := range envelopTestData{
-		smallEnvelop := GetBigestEnvelope(en.en1, en.en2)
+		smallEnvelop := Run(en.en1, en.en2)
 		if smallEnvelop != en.expectedResult{
 			t.Errorf("Input: envelop1: %v envelop2: %v expected: %d actual: %d",en.en1, en.en2,en.expectedResult, smallEnvelop)
 		}
