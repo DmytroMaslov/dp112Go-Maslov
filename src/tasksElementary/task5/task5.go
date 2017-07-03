@@ -12,6 +12,8 @@ package task5
 
 import (
 	"errors"
+	"encoding/json"
+	"fmt"
 )
 
 const TICKET_SIZE = 6
@@ -21,21 +23,35 @@ type TicketRange struct {
 	Min int
 	Max int
 }
-func Run(min, max int) WinMethod{
+func Run(param []byte) (string, error){
+	var ticketRange = new (TicketRange)
+	err := json.Unmarshal(param, &ticketRange)
+	if err != nil{
+		return "", errors.New("can't unmarshal data")
+	}
+	min := ticketRange.Min
+	max := ticketRange.Max
+	err = IsValid(min, max)
+	if err!=nil{
+		return "", err
+	}
 	winer := WinMethod{easy:  easyMethod(min, max),
 						hard: hardMethod(min, max)}
 	if (winer.easy>winer.hard) {winer.winName = "easy"
 	} else if (winer.easy<winer.hard) {winer.winName = "hard"
 	} else {winer.winName = "both"}
-	return winer
+	return fmt.Sprint(winer), nil
 }
 
 func IsValid (min, max int) (error) {
-	if (min<0|| max<0){
+	if (min < 0 || max < 0){
 		return errors.New("One of range less than zero")
 	}
-	if (max<MAX_NUMBER){
+	if (max > MAX_NUMBER){
 		return errors.New("more than max number")
+	}
+	if (max < min){
+		return errors.New("Max less than min")
 	} else {
 		return nil
 	}
