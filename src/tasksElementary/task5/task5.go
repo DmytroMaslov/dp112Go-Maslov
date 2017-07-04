@@ -18,13 +18,17 @@ import (
 
 const TICKET_SIZE = 6
 const MAX_NUMBER = 999999
+type Task5 struct {
+	Name string
+	TicketRange
+}
 
 type TicketRange struct {
 	Min int
 	Max int
 }
 func Run(param []byte) (string, error){
-	var ticketRange = new (TicketRange)
+	var ticketRange = new (Task5)
 	err := json.Unmarshal(param, &ticketRange)
 	if err != nil{
 		return "", errors.New("can't unmarshal data")
