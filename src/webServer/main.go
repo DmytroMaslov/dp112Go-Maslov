@@ -3,9 +3,10 @@ package main
 import (
 	"net/http"
 	"fmt"
-	//"tasksElementary/task5"
-	"encoding/json"
 	"io/ioutil"
+	s "strings"
+	"tasksElementary/taskManager"
+	"encoding/json"
 )
 
 
@@ -17,29 +18,22 @@ type Resp struct {
 	Resp string
 	Error string
 }
-type Request struct {
-	Name string
-	Param []byte
-}
+
 func handlerTask5 (w http.ResponseWriter, r *http.Request){
+	pos := s.LastIndex(r.RequestURI, "/")
+	task := r.RequestURI[pos+1:]
+	fmt.Println(task)
 	inp, err := ioutil.ReadAll(r.Body)
+	fmt.Println(inp)
 	if err !=nil {
 		fmt.Fprintf(w, "error:%s", err.Error())
 	}
 	defer r.Body.Close()
-	var req = new(Request)
-	err = json.Unmarshal(inp, &req)
-	fmt.Println(req.Name)
-	//fmt.Println(inp)
-	//inputS := r.Form["js"]
-	//jsonData :=[]byte(inputS[0])
-	/*str, err:=task5.Run(inp)
-	fmt.Println(str)
+	res, err := taskManager.RunTask(task, inp)
 	var resp = new(Resp)
-	resp.Resp = str
+	resp.Resp = res
 	fmt.Println(resp.Resp)
 	if err != nil {resp.Error = err.Error()}
-	json.NewEncoder(w).Encode(resp)*/
-
+	json.NewEncoder(w).Encode(resp)
 
 }

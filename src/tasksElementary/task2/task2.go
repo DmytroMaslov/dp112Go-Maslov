@@ -1,10 +1,36 @@
 package task2
 
-import "errors"
+import (
+	"errors"
+	"encoding/json"
+)
 
 type Envelope struct {
-	S1 float64
-	S2 float64
+	S1, S2 float64
+}
+type Params struct {
+	En1, En2 Envelope
+}
+
+func Run(param []byte) (string, error){
+	var pr  = new (Params)
+	err := json.Unmarshal(param, &pr)
+	if err != nil{
+		return "", errors.New("can't unmarshal data")
+	}
+	err = IsValid(pr.En1, pr.En2)
+	if err != nil{
+		return "", err
+	}
+
+	if pr.En1.isBigest(pr.En2) {
+		return "1", nil
+	}
+	if pr.En2.isBigest(pr.En1){
+		return "2", nil
+	}
+	return "0", nil
+
 }
 func (en1 * Envelope) isBigest(en2 Envelope) bool{
 	isParallel := en1.S1 > en2.S1 && en1.S2>en2.S2
@@ -25,17 +51,5 @@ func IsValid (en1 Envelope, en2 Envelope) (error){
 	return nil
 }
 
-func Run(en1 Envelope, en2 Envelope) int{
-
-
-	if en1.isBigest(en2) {
-		return 1
-	}
-	if en2.isBigest(en1){
-		return 2
-	}
-		return 0
-
-}
 
 

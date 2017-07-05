@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"encoding/json"
 )
-type Task1 struct {
-	Name string
-}
+
 type ChessBoard struct {
 	Lenght int
 	Width  int
