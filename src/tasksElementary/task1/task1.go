@@ -1,3 +1,5 @@
+//Task1
+// {"Lenght": 10, "Width": 10, "Symbol": "S"}
 package task1
 
 import (

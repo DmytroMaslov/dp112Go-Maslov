@@ -1,5 +1,6 @@
+//task2
+//{"En1":{"S1":4, "S2":5},"En2":{"S1":10, "S2":20}}
 package task2
-
 import (
 	"errors"
 	"encoding/json"

@@ -2,27 +2,28 @@ package task2
 
 import (
 	"testing"
+	"strings"
 )
-
+//{"S1":4, "S2":5},"En2":{"S1":10, "S2":20}}
 func TestGetSmallEnvelope(t *testing.T) {
-	var envelopTestData = []struct {
-		en1 Envelope
-		en2 Envelope
-		expectedResult int
+	var EnvelopTestData = []struct {
+		Data []byte
+		expectedResult string
 	}{
-		{Envelope{S1: 5, S2: 10}, Envelope{S1:10, S2:20}, 2},
-		{Envelope{S1: 50, S2: 100}, Envelope{S1:1, S2:2}, 1},
-		{Envelope{S1: 5, S2: 10}, Envelope{S1:5, S2:10}, 0},
-		{Envelope{S1: 50, S2: 5}, Envelope{S1:4, S2:49}, 1},
-		{Envelope{S1: 5, S2: 10}, Envelope{S1:10, S2:5.1}, 0},
-		{Envelope{S1: 0.00015, S2: 0.00020}, Envelope{S1:0.001, S2:0.002}, 2},
+		{[]byte (`{"En1":{"S1": 5, "S2": 10}, "En2": {"S1":10, "S2":20}}`), "2"},
+		{[]byte (`{"En1":{"S1": 50, "S2": 100}, "En2": {"S1":1, "S2":2}}`), "1"},
+		{[]byte (`{"En1":{"S1": 5, "S2": 10}, "En2": {"S1":5, "S2":10}}`), "0"},
+		{[]byte (`{"En1":{"S1": 50, "S2": 5}, "En2": {"S1":4, "S2":49}}`), "1"},
+		{[]byte (`{"En1":{"S1": 5, "S2": 10}, "En2": {"S1":10, "S2":5.1}}`), "0"},
+		{[]byte (`{"En1":{"S1": 0.00015, "S2": 0.00020}, "En2": {"S1":0.001, "S2":0.002}}`), "2"},
 	}
-	for _,en := range envelopTestData{
-		smallEnvelop := Run(en.en1, en.en2)
-		if smallEnvelop != en.expectedResult{
-			t.Errorf("Input: envelop1: %v envelop2: %v expected: %d actual: %d",en.en1, en.en2,en.expectedResult, smallEnvelop)
+	for _,en := range EnvelopTestData{
+		actualRes,_ := Run(en.Data)
+		if !strings.EqualFold(actualRes, en.expectedResult) {
+			t.Errorf("Input: envelop1 envelop2:  %s expected: %s actual: %s", en.Data, en.expectedResult, actualRes)
 		}
 	}
+
 }
 
 func TestIsValid(t *testing.T) {
