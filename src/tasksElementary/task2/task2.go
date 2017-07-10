@@ -7,31 +7,42 @@ import (
 )
 
 type Envelope struct {
-	S1, S2 float64
+	S1 float64 `json:"width"`
+	S2 float64 `json:"height"`
 }
 type Params struct {
 	En1, En2 Envelope
 }
 
 func Run(param []byte) (string, error){
-	var pr  = new (Params)
-	err := json.Unmarshal(param, &pr)
+
+	//var pr  = new (Params)
+	var pr []Envelope
+	var err error
+	pr, err = getEnvelop(param)
 	if err != nil{
 		return "", errors.New("can't unmarshal data")
 	}
-	err = IsValid(pr.En1, pr.En2)
+	//err = IsValid(pr[0].En1, pr[1].En2)
+	err = IsValid(pr[0], pr[1])
 	if err != nil{
 		return "", err
 	}
 
-	if pr.En1.isBigest(pr.En2) {
+	//if pr.En1.isBigest(pr.En2) {
+	if pr[0].isBigest(pr[1]) {
 		return "1", nil
 	}
-	if pr.En2.isBigest(pr.En1){
+	if pr[1].isBigest(pr[0]){
 		return "2", nil
 	}
 	return "0", nil
 
+}
+
+func getEnvelop(params []byte) (envelops []Envelope, err error){
+	err = json.Unmarshal(params, &envelops)
+	return
 }
 func (en1 * Envelope) isBigest(en2 Envelope) bool{
 	isParallel := en1.S1 > en2.S1 && en1.S2>en2.S2

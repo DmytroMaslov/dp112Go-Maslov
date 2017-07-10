@@ -9,9 +9,9 @@ import (
 )
 
 type ChessBoard struct {
-	Lenght int
-	Width  int
-	Symbol string
+	Lenght int `json:"width"`
+	Width  int `json:"height"`
+	Symbol string `json:"symbol"`
 }
 
 
