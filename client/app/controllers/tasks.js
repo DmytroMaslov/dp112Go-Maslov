@@ -9,7 +9,7 @@ angular.module('golang')
 			tasks.runTask(id).then(function (data) {
 				console.log(data);
 				$scope.data = data.data.resp;
-				$scope.error = data.data.reason;
+				$scope.error = data.data.error;
 			});
 		};
 

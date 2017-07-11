@@ -7,43 +7,38 @@ import (
 )
 
 type Envelope struct {
-	S1 float64 `json:"width"`
-	S2 float64 `json:"height"`
+	S1 float64 `json:"S1"`
+	S2 float64 `json:"S2"`
 }
 type Params struct {
-	En1, En2 Envelope
+	En1 Envelope `json:"En1"`
+	En2 Envelope `json:"En2"`
 }
 
 func Run(param []byte) (string, error){
 
-	//var pr  = new (Params)
-	var pr []Envelope
+	var envs = new (Params)
 	var err error
-	pr, err = getEnvelop(param)
+	err = json.Unmarshal(param, &envs)
 	if err != nil{
 		return "", errors.New("can't unmarshal data")
 	}
 	//err = IsValid(pr[0].En1, pr[1].En2)
-	err = IsValid(pr[0], pr[1])
+	err = IsValid(envs.En1, envs.En2)
 	if err != nil{
 		return "", err
 	}
 
-	//if pr.En1.isBigest(pr.En2) {
-	if pr[0].isBigest(pr[1]) {
+	if envs.En1.isBigest(envs.En2) {
 		return "1", nil
 	}
-	if pr[1].isBigest(pr[0]){
+	if envs.En2.isBigest(envs.En1){
 		return "2", nil
 	}
 	return "0", nil
 
 }
 
-func getEnvelop(params []byte) (envelops []Envelope, err error){
-	err = json.Unmarshal(params, &envelops)
-	return
-}
 func (en1 * Envelope) isBigest(en2 Envelope) bool{
 	isParallel := en1.S1 > en2.S1 && en1.S2>en2.S2
 	isPerpendicularly := en1.S1>en2.S2 && en1.S2>en2.S1
