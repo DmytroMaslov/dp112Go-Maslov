@@ -7,32 +7,30 @@ import (
 )
 
 type Envelope struct {
-	S1 float64 `json:"S1"`
-	S2 float64 `json:"S2"`
-}
-type Params struct {
-	En1 Envelope `json:"En1"`
-	En2 Envelope `json:"En2"`
+	S1 float64 `json:"width"`
+	S2 float64 `json:"height"`
 }
 
 func Run(param []byte) (string, error){
 
-	var envs = new (Params)
+	var envs = [2]Envelope{*new(Envelope), *new(Envelope)}
 	var err error
 	err = json.Unmarshal(param, &envs)
 	if err != nil{
 		return "", errors.New("can't unmarshal data")
 	}
-	//err = IsValid(pr[0].En1, pr[1].En2)
-	err = IsValid(envs.En1, envs.En2)
+	en1 := envs[0]
+	en2 := envs[1]
+	err = IsValid(en1, en2)
 	if err != nil{
 		return "", err
 	}
 
-	if envs.En1.isBigest(envs.En2) {
+	if en1.isBigest(en2) {
+
 		return "1", nil
 	}
-	if envs.En2.isBigest(envs.En1){
+	if en2.isBigest(en1){
 		return "2", nil
 	}
 	return "0", nil

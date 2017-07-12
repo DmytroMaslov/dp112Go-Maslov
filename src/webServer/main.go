@@ -1,3 +1,18 @@
+/*
+Contract
+respons
+one task:
+.../task/N
+{width:int, height: int, symbol: string}
+[{ "width": 8, "height": 5}, {"width": 6, "height": 9 }]
+request:
+{task: N, resp: string, reason: string}  //если ок по resp заполнен reason пустой
+
+allTask:
+.../tasks
+
+
+*/
 package main
 
 import (
@@ -18,9 +33,11 @@ func main(){
 	http.HandleFunc("/tasks", handlerTasks)
 	http.ListenAndServe(":8080", nil)
 }
-type Resp struct {
+//{task: N, resp: string, reason: string}
+type Respons struct {
+	Task string `json: task`
 	Resp string `json:"resp"`
-	Error string `json:"error"`
+	Reason string `json:"reason"`
 }
 type Request struct {
 	Task string
@@ -29,28 +46,28 @@ type Request struct {
 
 type RespAll struct {
 	Name string
-	Resp Resp
+	Resp Respons
 }
 
 
 func handlerTask(w http.ResponseWriter, r *http.Request){
-	pos := s.LastIndex(r.RequestURI, "/")
-	task := r.RequestURI[pos+1:]
-	fmt.Println(task)
-	inp, err := ioutil.ReadAll(r.Body)
-	fmt.Println(inp)
+	fmt.Println(r.RequestURI)
+	task := s.Replace(r.RequestURI, "/", "", -1)
+	inpData, err := ioutil.ReadAll(r.Body)
 	if err !=nil {
 		fmt.Fprintf(w, "error:%s", err.Error())
 	}
 	defer r.Body.Close()
-	res, err := taskManager.RunTask(task, inp)
-	var resp = new(Resp)
+	res, err := taskManager.RunTask(task, inpData)
+	var resp = new(Respons)
+	resp.Task = task
 	resp.Resp = res
 	fmt.Println(resp.Resp)
-	if err != nil {resp.Error = err.Error()}
+	if err != nil {resp.Reason = err.Error()}
 	json.NewEncoder(w).Encode(resp)
 
 }
+
 func handlerTasks (w http.ResponseWriter, r *http.Request){
 	fmt.Println("Body", r.Body)
 	inp, err := ioutil.ReadAll(r.Body)
@@ -63,22 +80,25 @@ func handlerTasks (w http.ResponseWriter, r *http.Request){
 	allTasks :=make(map[string]json.RawMessage)
 	fmt.Println("unmarhale")
 	err = json.Unmarshal(inp, &allTasks)
+
 	if err !=nil{
 		fmt.Fprintf(w, err.Error())
 	}
-	respAll := make (map[string] Resp)
+	respAll := make (map[string]Respons)
 	fmt.Println("all", allTasks)
 	for k, v := range allTasks{
 		res, err := taskManager.RunTask(k, []byte(v))
-		var resp = new(Resp)
+		var resp = new(Respons)
+		resp.Task = k
 		resp.Resp = res
-		if err != nil {resp.Error = err.Error()}
+		if err != nil {resp.Reason = err.Error()}
 		respAll[k] = *resp
 	}
 	fmt.Println(respAll)
 	json.NewEncoder(w).Encode(respAll)
 
 }
+
 
 func IndexHandler (w http.ResponseWriter, r *http.Request){
 	t, err := template.ParseFiles("templates/index.html")
