@@ -8,9 +8,9 @@ import (
 )
 var allTask = make(map[string]func ([]byte)(string, error))
 func init(){
-	allTask["task1"] = task1.Run
-	allTask["task2"] = task2.Run
-	allTask["task5"] = task5.Run
+	allTask["1"] = task1.Run
+	allTask["2"] = task2.Run
+	allTask["5"] = task5.Run
 }
 func RunTask(key string, data []byte) (string , error){
 

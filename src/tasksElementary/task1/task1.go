@@ -9,8 +9,8 @@ import (
 )
 
 type ChessBoard struct {
-	Lenght int `json:"width"`
-	Width  int `json:"height"`
+	Width int `json:"width"`
+	Height  int `json:"height"`
 	Symbol string `json:"symbol"`
 }
 
@@ -21,10 +21,10 @@ func Run(param []byte) (string, error){
 	if err != nil{
 		return "", errors.New("can't unmarshal data")
 	}
-	if err = IsValid(ch.Lenght, ch.Width, ch.Symbol); err != nil{
+	if err = IsValid(ch.Height, ch.Width, ch.Symbol); err != nil{
 		return "", err
 	}
-	return writeGrid(ch.Lenght, ch.Width, ch.Symbol), nil
+	return writeGrid(ch.Height, ch.Width, ch.Symbol), nil
 }
 func IsValid (l int, w int, c string) (error){
 	if l< 2 {

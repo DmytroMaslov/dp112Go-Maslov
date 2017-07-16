@@ -52,7 +52,8 @@ type RespAll struct {
 
 func handlerTask(w http.ResponseWriter, r *http.Request){
 	fmt.Println(r.RequestURI)
-	task := s.Replace(r.RequestURI, "/", "", -1)
+	indx := s.LastIndex(r.RequestURI, "/")+1
+	task := r.RequestURI[indx:]
 	inpData, err := ioutil.ReadAll(r.Body)
 	if err !=nil {
 		fmt.Fprintf(w, "error:%s", err.Error())
@@ -84,17 +85,18 @@ func handlerTasks (w http.ResponseWriter, r *http.Request){
 	if err !=nil{
 		fmt.Fprintf(w, err.Error())
 	}
-	respAll := make (map[string]Respons)
+	respAll := make([]Respons, len(allTasks))
 	fmt.Println("all", allTasks)
+	i:=0
 	for k, v := range allTasks{
 		res, err := taskManager.RunTask(k, []byte(v))
 		var resp = new(Respons)
 		resp.Task = k
 		resp.Resp = res
 		if err != nil {resp.Reason = err.Error()}
-		respAll[k] = *resp
+		respAll[i] = *resp
+		i++
 	}
-	fmt.Println(respAll)
 	json.NewEncoder(w).Encode(respAll)
 
 }
