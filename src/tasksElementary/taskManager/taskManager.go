@@ -6,6 +6,7 @@ import (
 	"errors"
 	"tasksElementary/task2"
 )
+const EMPTY_STR = ""
 var allTask = make(map[string]func ([]byte)(string, error))
 func init(){
 	allTask["1"] = task1.Run
@@ -16,7 +17,7 @@ func RunTask(key string, data []byte) (string , error){
 
 	task, ok := allTask[key]
 	if !ok{
-		return "", errors.New("Can't find this task")
+		return EMPTY_STR, errors.New("Can't find this task")
 	}
 	return task(data)
 }

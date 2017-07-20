@@ -5,12 +5,13 @@ import (
 	"strings"
 )
 //{"S1":4, "S2":5},"En2":{"S1":10, "S2":20}}
+//[{width: 8, height: 5}, {width: 6, height: 9}]
 func TestGetSmallEnvelope(t *testing.T) {
 	var EnvelopTestData = []struct {
 		Data []byte
 		expectedResult string
 	}{
-		{[]byte (`{"En1":{"S1": 5, "S2": 10}, "En2": {"S1":10, "S2":20}}`), "2"},
+		{[]byte (`[{"width":"5","height":"10"},{"width":"10","height":"20"}]`), "2"},
 		{[]byte (`{"En1":{"S1": 50, "S2": 100}, "En2": {"S1":1, "S2":2}}`), "1"},
 		{[]byte (`{"En1":{"S1": 5, "S2": 10}, "En2": {"S1":5, "S2":10}}`), "0"},
 		{[]byte (`{"En1":{"S1": 50, "S2": 5}, "En2": {"S1":4, "S2":49}}`), "1"},
@@ -19,6 +20,7 @@ func TestGetSmallEnvelope(t *testing.T) {
 	}
 	for _,en := range EnvelopTestData{
 		actualRes,_ := Run(en.Data)
+		t.Errorf("as"+actualRes)
 		if !strings.EqualFold(actualRes, en.expectedResult) {
 			t.Errorf("Input: envelop1 envelop2:  %s expected: %s actual: %s", en.Data, en.expectedResult, actualRes)
 		}

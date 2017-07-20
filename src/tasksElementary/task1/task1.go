@@ -13,25 +13,25 @@ type ChessBoard struct {
 	Height  int `json:"height"`
 	Symbol string `json:"symbol"`
 }
+const SPACE = " "
 
-
-func Run(param []byte) (string, error){
+func Run(param []byte) (str string, err error){
 	var ch = new (ChessBoard)
-	err := json.Unmarshal(param, &ch)
+	err = json.Unmarshal(param, &ch)
 	if err != nil{
-		return "", errors.New("can't unmarshal data")
+		return str, errors.New("can't unmarshal data")
 	}
 	if err = IsValid(ch.Height, ch.Width, ch.Symbol); err != nil{
-		return "", err
+		return str, err
 	}
 	return writeGrid(ch.Height, ch.Width, ch.Symbol), nil
 }
 func IsValid (l int, w int, c string) (error){
 	if l< 2 {
-		return errors.New("incorrect l")
+		return errors.New("incorrect Width")
 	}
 	if w <2{
-		return errors.New("incorrect w")
+		return errors.New("incorrect Height")
 	}
 	if len(c) == 0{
 		return errors.New("empty char symbol")
@@ -41,7 +41,7 @@ func IsValid (l int, w int, c string) (error){
 
 func writeGrid (l int, w int, c string) string{
 	i:= 0
-	var space = " "
+	var space = SPACE
 	var char = c
 	var newLine = "\n"
 	var grid = make([]string, 0)
@@ -66,7 +66,6 @@ func writeGrid (l int, w int, c string) string{
 			j++
 		}
 		grid = append(grid, newLine)
-		//fmt.Print("\n")
 		i++
 	}
 	return fmt.Sprint(grid)

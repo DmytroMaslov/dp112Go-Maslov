@@ -5,25 +5,25 @@ import (
 	"errors"
 	"encoding/json"
 )
+const ENVELOPE_COUNT = 2
 
 type Envelope struct {
 	S1 float64 `json:"width"`
 	S2 float64 `json:"height"`
 }
 
-func Run(param []byte) (string, error){
+func Run(param []byte) (str string, err error){
 
-	var envs = [2]Envelope{*new(Envelope), *new(Envelope)}
-	var err error
+	var envs = [ENVELOPE_COUNT]Envelope{*new(Envelope), *new(Envelope)}
 	err = json.Unmarshal(param, &envs)
 	if err != nil{
-		return "", errors.New("can't unmarshal data")
+		return str, errors.New("can't unmarshal data")
 	}
 	en1 := envs[0]
 	en2 := envs[1]
 	err = IsValid(en1, en2)
 	if err != nil{
-		return "", err
+		return str, err
 	}
 
 	if en1.isBigest(en2) {
